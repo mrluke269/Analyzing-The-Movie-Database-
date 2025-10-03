@@ -20,7 +20,7 @@ renamed as (
         popularity,
         production_companies,
         production_countries,
-        release_date,
+        cast(release_date as date) as release_date,
         revenue,
         runtime,
         spoken_languages,
