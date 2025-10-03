@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: movies
+    database: raw
+    tables:
+      - name: raw_credit
+      - name: raw_movies
