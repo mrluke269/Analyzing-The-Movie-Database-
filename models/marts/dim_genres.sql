@@ -1,5 +1,4 @@
-SELECT
-  id::number AS movie_id,
+SELECT distinct
   g.VALUE:"id"::number AS genre_id,
   g.VALUE:"name"::string AS genre_name
 FROM {{ ref('stg_movies__raw_movies') }},
