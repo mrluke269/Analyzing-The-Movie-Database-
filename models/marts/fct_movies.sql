@@ -4,7 +4,7 @@ with raw_movies as(
 
 renamed as (
 SELECT
-    id as movie_id,
+    {{ dbt_utils.generate_surrogate_key(['id']) }} AS movie_key,
     title,
     release_date,
     budget,
