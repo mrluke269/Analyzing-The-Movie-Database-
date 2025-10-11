@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: dim_countries
+    description: "A dimension model containing a unique list of production countries, identified by their ISO 3166-1 code."
+    columns:
+      - name: country_code
+        description: "The unique ISO 3166-1 identifier for a country. This is the primary key."
+        tests:
+          - unique
+          - not_null
+
+      - name: country_name
+        description: "The common name of the country."
+        tests:
+          - not_null
