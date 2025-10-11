@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: revenue_by_genre # This should match your SQL file name, e.g., revenue_by_genre.sql
+  - name: revenue_by_genre
     description: "An analytical model that aggregates key financial and rating metrics by movie genre. Each row represents a single genre."
     columns:
       - name: genre_name
