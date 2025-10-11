@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: dim_company.sql
+    description: "A dimension model containing a unique list of production companies and their IDs."
+    columns:
+      - name: company_id
+        description: "The unique identifier for a production company. This is the primary key."
+        tests:
+          - unique
+          - not_null
+
+      - name: company_name
+        description: "The name of the production company."
+        tests:
+          - not_null
