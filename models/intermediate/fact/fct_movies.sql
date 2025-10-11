@@ -17,6 +17,6 @@ SELECT
 from raw_movies
 )
 
-select * from renamed;
+select * from renamed
 
 
