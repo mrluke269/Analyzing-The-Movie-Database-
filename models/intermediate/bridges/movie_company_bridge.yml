@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: movie_company_bridge.sql
+    description: "A bridge model that links movies to their respective production companies"
+    columns:
+      - name: movie_id
+        description: "Foreign key to the movies table, identifying the movie."
+        tests:
+          - not_null
+
+      - name: company_id
+        description: "Foreign key to the dim_company table, identifying the production company."
+        tests:
+          - not_null
+          
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - movie_id
+            - company_id
