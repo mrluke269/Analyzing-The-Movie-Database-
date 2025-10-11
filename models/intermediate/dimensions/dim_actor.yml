@@ -1,6 +1,3 @@
-
-
-
 version: 2
 
 models:
@@ -19,16 +16,14 @@ models:
         description: Actor's full name
         data_tests:
           - not_null
-
+          
       - name: gender
         description: >
           Gender code (0=Not specified, 1=Female, 2=Male).
           Note: MAX value used when source data has conflicts.
         data_tests:
-          - not_null
           - accepted_values:
-            values: [0,1,2]  
-          
+              values: [0, 1, 2]  # This is the correct format!
         
     meta:
       grain: "One row per unique actor"

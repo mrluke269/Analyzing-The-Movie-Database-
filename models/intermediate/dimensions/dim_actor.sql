@@ -4,7 +4,7 @@ with actors_raw as (
         c.value:name::string as actor_name,
         c.value:gender::int as gender
     from {{ ref('stg_movies__raw_credit') }} rc,
-    lateral flatten(input => rc.cast_json) as c
+    lateral flatten(input => parse_json(rc.cast_json)) as c
     where c.value:id is not null
 ),
 
