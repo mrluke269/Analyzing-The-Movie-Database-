@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ source('movies', 'raw_movies') }}
+    select * from {{ source('movies', 'raw_movies') }} where release_date is not null
 
 ),
 
