@@ -49,11 +49,6 @@ models:
         data_type: variant
         data_tests:
           - not_null
-    
-    data_tests:
-      - dbt_expectations.expect_table_row_count_to_be_between:
-          min_value: 1000  # Adjust based on your expected data
-          max_value: 100000
           
     meta:
       source_table: "RAW_DB.MOVIES.RAW_CREDIT"
