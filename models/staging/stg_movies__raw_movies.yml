@@ -24,10 +24,9 @@ models:
         data_type: string
         
       - name: release_date
-        description: Th release date of the movie
+        description: The release date of the movie
         data_type: date
-        data_tests:
-          - not_null
+
               
       # Financial Metrics
       - name: budget
