@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: dim_crews 
+    description: "A dimension model containing a unique list of all crew members (e.g., directors, writers, editors)."
+    columns:
+      - name: crew_id
+        description: "The unique identifier for a crew member. This is the primary key."
+        tests:
+          - unique
+          - not_null
+
+      - name: crew_name
+        description: "The name of the crew member."
+        tests:
+          - not_null
+
+      - name: gender
+        description: "A code representing the gender of the crew member (e.g., 0 for Not Specified, 1 for Female, 2 for Male)."
