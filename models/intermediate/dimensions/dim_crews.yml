@@ -1,19 +1,34 @@
 version: 2
 
 models:
-  - name: dim_crews 
-    description: "A dimension model containing a unique list of all crew members (e.g., directors, writers, editors)."
+  - name: dim_crew
+    description: >
+      Dimension table containing unique crew members. One row per crew member.
+      Deduplication logic: When gender conflicts exist, non-zero values are prioritized.
     columns:
       - name: crew_id
-        description: "The unique identifier for a crew member. This is the primary key."
-        tests:
+        description: Unique identifier for each crew member
+        data_tests:
           - unique
           - not_null
-
+          
       - name: crew_name
-        description: "The name of the crew member."
-        tests:
+        description: Crew member's full name
+        data_tests:
           - not_null
-
+          
       - name: gender
-        description: "A code representing the gender of the crew member (e.g., 0 for Not Specified, 1 for Female, 2 for Male)."
+        description: >
+          Gender code (0=Not specified, 1=Female, 2=Male).
+          Note: MAX value used when source data has conflicts.
+        data_tests:
+          - accepted_values:
+              values: [0,1,2]
+                
+        
+    meta:
+      grain: "One row per unique crew member"
+      deduplication_rule: "MAX(gender) to handle source data conflicts"
+      known_issues:
+        - "Some crew members have duplicated gender values in source data"
+        - "Crew ID 30711 had both 0 and 2 - resolved to 2"

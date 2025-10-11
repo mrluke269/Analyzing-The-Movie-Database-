@@ -23,7 +23,7 @@ models:
           Note: MAX value used when source data has conflicts.
         data_tests:
           - accepted_values:
-              values: [0, 1, 2]  # This is the correct format!
+              values: [0, 1, 2]
         
     meta:
       grain: "One row per unique actor"
