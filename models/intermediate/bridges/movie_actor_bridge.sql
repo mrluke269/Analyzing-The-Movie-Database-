@@ -5,5 +5,5 @@ select
     cj.value:order::int as cast_order,            
     cj.value:credit_id::string as credit_id      
 from {{ ref('stg_movies__raw_credit') }} as c,
-lateral flatten(input => c.cast_json) as cj
+lateral flatten(input => parse_json(c.cast_json)) as cj
 where c.movie_id is not null 
