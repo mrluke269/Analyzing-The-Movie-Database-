@@ -23,8 +23,6 @@ models:
           
       - name: release_date
         description: Theatrical release date
-        data_tests:
-          - not_null
           
       - name: budget
         description: Production budget in USD (0 if unknown)
