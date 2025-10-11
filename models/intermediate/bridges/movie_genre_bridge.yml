@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: movie_genre_bridge
+    description: "A bridge model that links movies to their genres, establishing a many-to-many relationship."
+    columns:
+      - name: movie_id
+        description: "Foreign key to the movies table."
+        tests:
+          - not_null
+
+      - name: genre_id
+        description: "Foreign key to the dim_genres table."
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - movie_id
+            - genre_id
