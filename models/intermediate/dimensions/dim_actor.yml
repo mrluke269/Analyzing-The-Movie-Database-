@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: dim_actor
+    description: Dimension table containing unique actors. One row per actor.
+    columns:
+      - name: actor_id
+        description: Unique identifier for each actor
+        data_tests:
+          - unique
+          - not_null
+          
+      - name: actor_name
+        description: Actor's full name
+        data_tests:
+          - not_null
+          
+      - name: gender
+        description: Gender code (0=Not specified, 1=Female, 2=Male)
+        data_tests:
+        - accepted_values:
+            values: [0,1,2]
+        
+    meta:
+      grain: "One row per unique actor"
