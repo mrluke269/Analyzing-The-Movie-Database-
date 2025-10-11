@@ -3,6 +3,24 @@ with raw_movies as(
 ),
 
 renamed as (
+SELECT
+    id as movie_id,
+    title,
+    release_date,
+    budget,
+    revenue,
+    runtime,
+    popularity,
+    vote_average,
+    vote_count,
+    status
+from raw_movies
+)
+
+select * from renamed;
+
+-- In your fct_movies.sql
+renamed as (
     SELECT
         id as movie_id,
         title,
@@ -16,5 +34,3 @@ renamed as (
         status
     from raw_movies
 )
-
-select * from renamed;
