@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: fct_movies
+    description: >
+      Core fact table containing one row per movie with key financial and performance metrics.
+      This is the central table in our star schema, containing all measurable facts about movies.
+      Links to dimension tables via movie_id through bridge tables.
+    columns:
+      - name: movie_id
+        description: Primary key. Unique identifier for each movie that links to all dimension tables.
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('stg_movies__raw_movies')
+              field: id
+              
+      - name: title
+        description: Movie title for reference (denormalized for convenience)
+        data_tests:
+          - not_null
+          
+      - name: release_date
+        description: Theatrical release date
+        data_tests:
+          - not_null
+          
+      - name: budget
+        description: Production budget in USD (0 if unknown)
+        
+      - name: revenue  
+        description: Total worldwide box office revenue in USD (0 if unknown)
+        
+      - name: runtime
+        description: Duration in minutes
+        
+      - name: popularity
+        description: TMDB popularity score (higher = more popular, scale is open-ended)
+        
+      - name: vote_average
+        description: Average user rating (0-10 scale)
+        
+      - name: vote_count
+        description: Number of user votes
+        
+      - name: status
+        description: Status
+        data_tests:
+          - accepted_values:
+              values: ['Released', 'Post Production',  'Rumored']
+          
+    meta:
+      grain: "One row per movie"
+      related_dimensions:
+        - "dim_actors (via movie_actor_bridge)"
+        - "dim_directors (via movie_director_bridge)"  
+        - "dim_genres (via movie_genre_bridge)"
+        - "dim_production_companies (via movie_company_bridge)"
