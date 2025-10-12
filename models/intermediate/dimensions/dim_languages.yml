@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: dim_languages
+    description: "A dimension model containing a unique list of spoken languages, identified by their ISO 639-1 code."
+    columns:
+      - name: language_code
+        description: "The unique ISO 639-1 identifier for a language. This is the primary key."
+        tests:
+          - unique
+          - not_null
+
+      - name: language
+        description: "The common name of the language."
+        tests:
+          - not_null

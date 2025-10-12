@@ -1,5 +1,9 @@
-SELECT
-  c.movie_id::string AS movie_id,
-  cj.VALUE:"id"::string AS actor_id
-FROM {{ ref('stg_movies__raw_credit') }} AS c,
-LATERAL FLATTEN(INPUT => PARSE_JSON(c.cast_json)) AS cj
+select
+    c.movie_id,
+    cj.value:id::string as actor_id,
+    cj.value:character::string as character_name,  
+    cj.value:order::int as cast_order,            
+    cj.value:credit_id::string as credit_id      
+from {{ ref('stg_movies__raw_credit') }} as c,
+lateral flatten(input => parse_json(c.cast_json)) as cj
+where c.movie_id is not null 

@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: dim_keywords
+    description: "A dimension model containing a unique list of keywords associated with movies (e.g., 'based on novel', 'dystopia')."
+    columns:
+      - name: keyword_id
+        description: "The unique identifier for a keyword. This is the primary key."
+        tests:
+          - unique
+          - not_null
+
+      - name: keyword_name
+        description: "The keyword or tag itself."
+        tests:
+          - not_null

@@ -3,7 +3,6 @@ with
 source as (
 
     select * from {{ source('movies', 'raw_movies') }}
-
 ),
 
 renamed as (

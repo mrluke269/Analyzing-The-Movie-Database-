@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: dim_genres
+    description: "A dimension model containing a unique list of movie genres (e.g., Action, Comedy, Drama)."
+    columns:
+      - name: genre_id
+        description: "The unique identifier for a genre. This is the primary key."
+        tests:
+          - unique
+          - not_null
+
+      - name: genre_name
+        description: "The name of the genre."
+        tests:
+          - not_null

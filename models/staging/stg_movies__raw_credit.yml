@@ -1,0 +1,56 @@
+
+version: 2
+
+models:
+  - name: stg_movies__raw_credit
+    description: >
+      Staging model that cleans and prepares raw movie credit data. 
+      Contains cast and crew information in JSON format for each movie.
+      Filters out header rows and invalid records from the source data.
+    columns:
+      - name: movie_id
+        description: Unique identifier for each movie. Links to stg_movies__raw_movies.
+        data_type: string
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              to: ref('stg_movies__raw_movies')
+              field: id
+              
+      - name: title
+        description: The title of the movie (may not match exactly with raw_movies due to data inconsistencies)
+        data_type: string
+        data_tests:
+          - not_null
+          
+      - name: cast_json
+        description: >
+          JSON array containing cast member details. Each element includes:
+          - id: Actor's unique identifier
+          - name: Actor's full name
+          - character: Character name played
+          - gender: Gender code (1=Female, 2=Male, 0=Not specified)
+          - order: Billing order (0=lead role, higher numbers=supporting roles)
+          - credit_id: Unique identifier for this specific credit
+        data_type: variant
+        data_tests:
+          - not_null
+          
+      - name: crew_json
+        description: >
+          JSON array containing crew member details. Each element includes:
+          - id: Crew member's unique identifier
+          - name: Crew member's full name
+          - job: Specific role (e.g., 'Director', 'Producer', 'Cinematographer')
+          - department: Department name (e.g., 'Directing', 'Production', 'Camera')
+          - gender: Gender code (1=Female, 2=Male, 0=Not specified)
+          - credit_id: Unique identifier for this specific credit
+        data_type: variant
+        data_tests:
+          - not_null
+          
+    meta:
+      source_table: "RAW_DB.MOVIES.RAW_CREDIT"
+      filters_applied:
+        - "Excludes header rows (c1 != 'C1' and c1 != 'movie_id')"

@@ -1,0 +1,150 @@
+version: 2
+
+models:
+  - name: stg_movies__raw_movies
+    description: >
+      Staging model for raw movie data. Contains core movie information including
+      financial metrics, metadata, and nested JSON arrays. This is the primary fact source for movie analytics.
+    columns:
+      - name: id
+        description: Unique identifier for each movie.
+        data_type: string
+        data_tests:
+          - unique
+          - not_null
+          
+      - name: title
+        description: The official release title of the movie
+        data_type: string
+        data_tests:
+          - not_null
+          
+      - name: original_title
+        description: The original title
+        data_type: string
+        
+      - name: release_date
+        description: The release date of the movie
+        data_type: date
+
+              
+      # Financial Metrics
+      - name: budget
+        description: Production budget in USD.
+        data_type: number
+              
+      - name: revenue
+        description: Total revenue in USD.
+        data_type: number
+              
+      # Movie Metrics
+      - name: runtime
+        description: Movie duration in minutes
+        data_type: number
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1000  # Max 1000 minutes
+              
+      - name: popularity
+        description: >
+          TMDB popularity score.
+        data_type: number
+        
+      - name: vote_average
+        description: Average user rating on scale of 0-10
+        data_type: number
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 10
+              
+      - name: vote_count
+        description: Total number of user votes/ratings received
+        data_type: number
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              
+      # Metadata
+      - name: status
+        description: >
+          Current status of the movie. 
+          Common values: 'Rumored', 'Post Production', 'Released'
+        data_type: string
+        data_tests:
+          - accepted_values:
+              values: ['Rumored', 'Post Production', 'Released']
+              
+      - name: original_language
+        description: ISO 639-1 language code of the original production (e.g., 'en' for English, 'fr' for French)
+        data_type: string
+        data_tests:
+          - not_null
+          
+      - name: tagline
+        description: Movie's tagline.
+        data_type: string
+        
+      - name: overview
+        description: Plot summary/synopsis of the movie.
+        data_type: string
+        
+      - name: homepage
+        description: Official movie website URL. Often null for older movies.
+        data_type: string
+        
+      # JSON Arrays - These need to be flattened in intermediate layer
+      - name: genres
+        description: >
+          JSON array of genre objects. Each element contains:
+          - id: Genre identifier (integer)
+          - name: Genre name (e.g., 'Action', 'Comedy', 'Drama')
+        data_type: variant
+        data_tests:
+          - not_null
+        
+      - name: keywords
+        description: >
+          JSON array of keyword objects for movie themes/topics. Each element contains:
+          - id: Keyword identifier
+          - name: Keyword text
+        data_type: variant
+        data_tests:
+          - not_null
+        
+      - name: production_companies
+        description: >
+          JSON array of production company objects. Each element contains:
+          - id: Company identifier (integer)
+          - name: Company name (e.g., 'Warner Bros.', 'Universal Pictures')
+        data_type: variant
+        data_tests:
+          - not_null
+        
+      - name: production_countries
+        description: >
+          JSON array of production country objects. Each element contains:
+          - iso_3166_1: Country code (e.g., 'US', 'GB')
+          - name: Country name (e.g., 'United States of America')
+        data_type: variant
+        data_tests:
+          - not_null
+        
+      - name: spoken_languages
+        description: >
+          JSON array of spoken language objects. Each element contains:
+          - iso_639_1: Language code (e.g., 'en', 'es')
+          - name: Language name (e.g., 'English', 'Español')
+        data_type: variant
+    
+          
+    meta:
+      source_table: "RAW_DB.MOVIES.RAW_MOVIES"
+      primary_key: "id"
+      grain: "One row per movie"
+      common_filters:
+        - "WHERE status = 'Released' -- For production reporting"
+        - "WHERE revenue > 0 AND budget > 0 -- For financial analysis"
+      known_data_quality_issues:
+        - "Popularity score changes daily - not suitable for historical comparison"

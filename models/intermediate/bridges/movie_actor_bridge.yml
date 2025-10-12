@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: movie_actor_bridge.sql
+    description: "A model that unnests the cast information for each movie. Each row represents a single actor's role in a movie."
+    columns:
+      - name: movie_id
+        description: "The unique identifier for a movie. Foreign key to the movies table."
+        tests:
+          - not_null
+
+      - name: actor_id
+        description: "The unique identifier for an actor. Foreign key to the actors table."
+        tests:
+          - not_null
+
+      - name: character_name
+        description: "The name of the character played by the actor in the movie."
+
+      - name: cast_order
+        description: "The order of appearance or importance of the actor in the cast list."
+        tests:
+          - not_null
+
+      - name: credit_id
+        description: "A unique identifier for this specific casting credit."
+        tests:
+          - unique
+          - not_null

@@ -18,3 +18,5 @@ from raw_movies
 )
 
 select * from renamed
+
+

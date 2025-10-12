@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: movie_crew_bridge
+    description: "A bridge model linking movies to individual crew members, detailing the specific job and department for each credit."
+    columns:
+      - name: movie_id
+        description: "Foreign key to the movies table."
+        tests:
+          - not_null
+
+      - name: crew_id
+        description: "Foreign key to the dim_crews table."
+        tests:
+          - not_null
+
+      - name: credit_id
+        description: "The unique identifier for this specific crew credit. This is the primary key."
+        tests:
+          - unique
+          - not_null
+
+      - name: job
+        description: "The specific job title held by the crew member for this movie (e.g., Director, Editor)."
+
+      - name: department_name
+        description: "The department the crew member worked in for this job (e.g., Directing, Sound, Editing)."

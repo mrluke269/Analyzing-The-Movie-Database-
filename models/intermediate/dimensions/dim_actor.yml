@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: dim_actor
+    description: >
+      Dimension table containing unique actors. One row per actor.
+      Deduplication logic: When gender conflicts exist, non-zero values are prioritized.
+    columns:
+      - name: actor_id
+        description: Unique identifier for each actor
+        data_tests:
+          - unique
+          - not_null
+          
+      - name: actor_name
+        description: Actor's full name
+        data_tests:
+          - not_null
+          
+      - name: gender
+        description: >
+          Gender code (0=Not specified, 1=Female, 2=Male).
+          Note: MAX value used when source data has conflicts.
+        data_tests:
+          - accepted_values:
+              values: [0, 1, 2]
+        
+    meta:
+      grain: "One row per unique actor"
+      deduplication_rule: "MAX(gender) to handle source data conflicts"
+      known_issues:
+        - "Some actors have inconsistent gender values in source data"
+        - "Erin Pitt (1189293) had both 0 and 1 - resolved to 1"
