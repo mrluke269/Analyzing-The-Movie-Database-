@@ -37,6 +37,22 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   mv_project:
-    # Applies to all files under models/example/
-    example:
+    # Staging models - source data transformations (views for lightweight queries)
+    staging:
+      +materialized: view
+    
+    # Intermediate models - dimensional model components
+    intermediate:
+      # Dimension tables
+      dimensions:
+        +materialized: table
+      # Bridge tables for many-to-many relationships
+      bridges:
+        +materialized: table
+      # Fact tables
+      fact:
+        +materialized: table
+    
+    # Mart models - final analytics-ready tables
+    marts:
       +materialized: table
