@@ -221,7 +221,7 @@ lateral flatten(input => parse_json(cast_json)) as c
 # Generate documentation
 dbt docs generate
 dbt docs serve
-```
+
 
 ---
 
