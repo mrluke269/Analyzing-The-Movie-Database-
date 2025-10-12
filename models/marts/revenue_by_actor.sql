@@ -13,4 +13,4 @@ left join {{ref("dim_actor")}} as da on ab.actor_id = da.actor_id
 group by 
     1,2
 order by 
-    total_revenue desc;
+    total_revenue desc
