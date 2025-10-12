@@ -4,7 +4,7 @@ models:
   - name: revenue_by_genre
     description: "An analytical model that aggregates key financial and rating metrics by movie genre. Each row represents a single genre."
     columns:
-      - name: genre_name
+      - name: genre_id
         description: "The name of the movie genre. This is the primary key for this model."
         tests:
           - unique
