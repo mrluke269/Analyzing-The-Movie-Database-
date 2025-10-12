@@ -8,9 +8,10 @@ select
     sum(m.revenue - m.budget) as total_profit,
     avg(m.vote_average) as avg_rating
 from {{ref("fct_movies")}} as m 
-left join {{ref("movie_actor_bridge")}} as ab on m.movie_id = ab.movie_id
-left join {{ref("dim_actor")}} as da on ab.actor_id = da.actor_id
+inner join {{ref("movie_actor_bridge")}} as ab on m.movie_id = ab.movie_id
+inner join {{ref("dim_actor")}} as da on ab.actor_id = da.actor_id
 group by 
     1,2
 order by 
     total_revenue desc
+
