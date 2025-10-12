@@ -1,5 +1,6 @@
 -- Revenue by actor
 select
+    da.actor_id,
     da.actor_name,
     sum(m.revenue) as total_revenue,
     count(distinct m.movie_id) as total_movies,
@@ -9,5 +10,7 @@ select
 from {{ref("fct_movies")}} as m 
 left join {{ref("movie_actor_bridge")}} as ab on m.movie_id = ab.movie_id
 left join {{ref("dim_actor")}} as da on ab.actor_id = da.actor_id
-group by 1
-order by 2 desc
+group by 
+    1,2
+order by 
+    total_revenue desc;
