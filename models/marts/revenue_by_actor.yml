@@ -4,7 +4,7 @@ models:
   - name: revenue_by_actor
     description: "An analytical model that aggregates key financial and rating metrics by actor. Each row represents a single actor."
     columns:
-      - name: actor_name
+      - name: actor_id
         description: "The name of the actor. This is the primary key for this model."
         tests:
           - unique
