@@ -1,0 +1,49 @@
+# Example dbt profiles.yml configuration
+# Copy this file to ~/.dbt/profiles.yml and update with your credentials
+
+# Profile name should match the 'profile' setting in dbt_project.yml
+default:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: your_account_identifier  # e.g., abc12345.us-east-1
+      user: your_username
+      password: your_password
+      role: your_role                   # e.g., TRANSFORMER
+      database: your_database           # e.g., ANALYTICS
+      warehouse: your_warehouse         # e.g., TRANSFORMING
+      schema: dev_schema               # e.g., dbt_jsmith
+      threads: 4
+      client_session_keep_alive: False
+      
+    prod:
+      type: snowflake
+      account: your_account_identifier
+      user: your_username
+      password: your_password
+      role: your_role
+      database: your_database
+      warehouse: your_warehouse
+      schema: prod_schema              # e.g., analytics
+      threads: 8
+      client_session_keep_alive: False
+
+# Alternative: Using environment variables for credentials
+# 
+# default:
+#   target: dev
+#   outputs:
+#     dev:
+#       type: snowflake
+#       account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+#       user: "{{ env_var('SNOWFLAKE_USER') }}"
+#       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+#       role: "{{ env_var('SNOWFLAKE_ROLE') }}"
+#       database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+#       warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
+#       schema: dev_schema
+#       threads: 4
+
+# For more configuration options, see:
+# https://docs.getdbt.com/reference/warehouse-profiles/snowflake-profile
